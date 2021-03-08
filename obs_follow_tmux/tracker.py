@@ -9,7 +9,12 @@ import simpleobsws, json, asyncio
 title = "Twitch Terminal"
 # the tmux pane we're looking for.
 pane_title = "findme"
-
+# our obs source name that we're affecting
+source_name = "orange"
+# obs websocket details
+obs_host = "127.0.0.1"
+obs_port = 4444
+obs_password = "rexroof"
 
 # query xwindows for our window
 xclients = ewmh.get_client_list().reply()
@@ -27,6 +32,8 @@ print(x11x, x11y, xwidth, xheight)
 
 # x11x is the left/right location
 # x11y is the up/down location
+
+# subtract 38 pixels from top for menu
 
 
 # query tmux for our pane
@@ -80,3 +87,42 @@ pane_offset_h_px = tmux_pane_top * height_mod
 placement_w = x11x + 30 + pane_offset_w_px
 # placement_h =   window location + pane top * pixel mods
 placement_h = x11y + 60 + pane_offset_h_px
+
+# geo="${pane_width_px%.*}x${pane_height_px%.*}+${placement_w%.*}+${placement_h%.*}"
+
+# now for the OBS stuff
+loop = asyncio.get_event_loop()
+ws = simpleobsws.obsws(host=obs_host, port=obs_port, password=obs_password, loop=loop)
+
+
+async def move_cam():
+    await ws.connect()
+
+    data = {"item": source_name}
+    result = await ws.call("GetSceneItemProperties", data)
+
+    data = {
+        "sourceName": source_name,
+        "sourceSettings": {"height": 982, "width": 550},
+        # "sourceSettings": {"height": pane_height_px, "width": pane_width_px},
+    }
+    print(data)
+    result = await ws.call("SetSourceSettings", data)
+
+    # geo="${pane_width_px%.*}x${pane_height_px%.*}+${placement_w%.*}+${placement_h%.*}"
+
+    data = {
+        "item": source_name,
+        "visible": True,
+        "position": {"y": 152, "x": 326},
+        # "position": {"y": placement_h, "x": (placement_w - 2560)},
+        # "scale.x": 1,
+        # "scale.y": 1,
+    }
+    print(data)
+    result = await ws.call("SetSceneItemProperties", data)
+
+    await ws.disconnect()
+
+
+loop.run_until_complete(move_cam())
