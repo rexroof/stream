@@ -1,9 +1,9 @@
 #!/home/rex/.venv/xpybutil/bin/python
-import xpybutil.ewmh as ewmh
-import xpybutil.window as window
 import subprocess
 import sys
+import pprint
 import simpleobsws, json, asyncio
+
 
 # our x11 window title that we're looking for.
 title = "Twitch Terminal"
@@ -16,11 +16,18 @@ obs_host = "127.0.0.1"
 obs_port = 4444
 obs_password = "rexroof"
 
-# query xwindows for our window
-xclients = ewmh.get_client_list().reply()
-for c in xclients:
-    if ewmh.get_wm_name(c).reply() == title:
-        x11x, x11y, xwidth, xheight = window.get_geometry(c)
+
+xwin_output = subprocess.check_output(["xwininfo", "-name", title], text=True)
+xwininfo = {}
+for line in xwin_output.split("\n"):
+    if "Absolute upper-left X" in line:
+        x11x = int(line.split(":")[1].strip())
+    if "Absolute upper-left Y" in line:
+        x11y = int(line.split(":")[1].strip())
+    if "Width" in line:
+        xwidth = int(line.split(":")[1].strip())
+    if "Height" in line:
+        xheight = int(line.split(":")[1].strip())
 
 # quick sanity check if h/w are set
 if not xwidth or xwidth < 1:
@@ -30,11 +37,18 @@ if not xheight or xheight < 1:
 
 print(x11x, x11y, xwidth, xheight)
 
+# we should check  xdotool getactivewindow getwindowname
+# to see if we are the active window, if not, pass
+
+# remove 37 pixels to account for xwindow header
+# xheight -= 38
+# also add those pixels to the y axis
+# x11y += 38
+# remove 26 characters for the tmux status bar
+xheight -= 26
+
 # x11x is the left/right location
 # x11y is the up/down location
-
-# subtract 38 pixels from top for menu
-
 
 # query tmux for our pane
 tmux_format = "#T #{window_width} #{window_height} #{pane_bottom} #{pane_top} #{pane_height} #{pane_right} #{pane_left} #{pane_width} #{window_active_sessions} #{window_flags}"
@@ -59,7 +73,7 @@ if len(tmux_specs) > 0:
     tmux_pane_right = int(tmux_specs[6])
     tmux_pane_left = int(tmux_specs[7])
     tmux_pane_width = int(tmux_specs[8])
-    tmux_window_active_sessions = tmux_specs[9]
+    tmux_window_active_sessions = int(tmux_specs[9])
     tmux_window_flags = tmux_specs[10]
 else:
     sys.exit()
@@ -68,10 +82,20 @@ print(tmux_window_height, tmux_window_width)
 # check window active
 # if array exists, if window_active_session == 0, and if window flags = -, or does not equal *
 
+if not tmux_window_flags:
+    sys.exit()
+
+if tmux_window_active_sessions == 0:
+    sys.exit()
+
+if tmux_window_flags != "*":
+    sys.exit()
+
+
 # subtract 60 from width and 120 from height for window decorations
 # these mod values are roughly our character height/width
-width_mod = (xwidth - 60) / tmux_window_width
-height_mod = (xheight - 120) / tmux_window_height
+width_mod = xwidth / tmux_window_width
+height_mod = xheight / tmux_window_height
 
 # estimate pane height/width
 pane_height_px = height_mod * tmux_pane_height
@@ -84,9 +108,9 @@ pane_offset_h_px = tmux_pane_top * height_mod
 # this figures out the X/Y coordinates of our pane in the entire X11 view.
 #  we are adding 30 & 60 pixels to compensate for window dressing.  (just guesses)
 # placement_w =   window location + pane left * pixel mods
-placement_w = x11x + 30 + pane_offset_w_px
+placement_w = x11x + pane_offset_w_px
 # placement_h =   window location + pane top * pixel mods
-placement_h = x11y + 60 + pane_offset_h_px
+placement_h = x11y + pane_offset_h_px
 
 # geo="${pane_width_px%.*}x${pane_height_px%.*}+${placement_w%.*}+${placement_h%.*}"
 
@@ -97,14 +121,19 @@ ws = simpleobsws.obsws(host=obs_host, port=obs_port, password=obs_password, loop
 
 async def move_cam():
     await ws.connect()
+    pp = pprint.PrettyPrinter()
 
     data = {"item": source_name}
     result = await ws.call("GetSceneItemProperties", data)
+    pp.pprint(result)
+
+    #   Corners:  +2560+64  -0+64  -0-240  +2560-240
+    #   -geometry 1920x1136--1+26
 
     data = {
         "sourceName": source_name,
-        "sourceSettings": {"height": 982, "width": 550},
-        # "sourceSettings": {"height": pane_height_px, "width": pane_width_px},
+        # "sourceSettings": {"height": 1200, "width": 1920},
+        "sourceSettings": {"height": pane_height_px, "width": pane_width_px},
     }
     print(data)
     result = await ws.call("SetSourceSettings", data)
@@ -114,8 +143,9 @@ async def move_cam():
     data = {
         "item": source_name,
         "visible": True,
-        "position": {"y": 152, "x": 326},
-        # "position": {"y": placement_h, "x": (placement_w - 2560)},
+        # "position": {"y": 64, "x": 0},
+        "position": {"y": (placement_h * 0.9), "x": ((placement_w - 2560) * 0.9)},
+        "scale": {"y": 0.9, "x": 0.9},
         # "scale.x": 1,
         # "scale.y": 1,
     }
