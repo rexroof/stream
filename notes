@@ -6,6 +6,9 @@ today:
 * toggle visibility  
 
 todo:
+
+ - detect slight differences between scale set and scale recorded to not change again
+   - or track previous setting?
  - highlight my name in the chat window
  - change backround on dark chat usernames
  - trigger on time and tmux changes
