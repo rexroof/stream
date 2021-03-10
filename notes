@@ -1,21 +1,18 @@
-- monday
+- wednesday
+
+today:
+* check if there are any changes before we change the settings
+* get camera into tmux pane
+* toggle visibility  
+
+todo:
+ - highlight my name in the chat window
+ - change backround on dark chat usernames
+ - trigger on time and tmux changes
+ - undofile in vim
+ * add oh-my-tmux to chat bot command
 
 
 weekend:
 clean keyboard
-
-today:
-- try to get my camera into the tmux pane
-
-todo:
- have the bot explain their pronouns
- add default shoutout
- clean up kubernetes intro talk second half
-   - remove content from busy slides
-   - make sure github is obviously shared
-can the bot know when a tmux popup is visible to wait to change font?
-keystroke to revert font? or set sane font?
-
-[cafce25]: scale.x = <calculated width> / 1920
-[cafce25]: scale.y = <calculated height> / 1200
 
