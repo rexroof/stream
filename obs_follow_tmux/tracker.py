@@ -19,6 +19,9 @@ obs_host = "127.0.0.1"
 obs_port = 4444
 obs_password = "rexroof"
 
+# this is the scaling of our desktop inside obs.
+default_scaling = 0.9
+
 
 async def window_info(title="window title"):
     result = {}
@@ -115,11 +118,13 @@ async def tmux_info(pane_title="findme"):
     if not result["tmux_window_flags"]:
         return None
 
-    print(f"tmux_window_active_sessions {result['tmux_window_active_sessions']}")
+    logging.debug(
+        f"tmux_window_active_sessions {result['tmux_window_active_sessions']}"
+    )
     if result["tmux_window_active_sessions"] == 0:
         return None
 
-    print(f"tmux_window_flags {result['tmux_window_flags']}")
+    logging.debug(f"tmux_window_flags {result['tmux_window_flags']}")
     if result["tmux_window_flags"] != "*":
         return None
 
@@ -180,22 +185,45 @@ async def main_loop():
     data = {"item": source_name}
     result = await ws.call("GetSceneItemProperties", data)
 
-    # everything is *0.9 because my desktop is scaled to 0.9 in OBS
-
-    if not visible:
-        data = {"item": source_name, "visible": visible}
+    if visible:
+        new_y = placement_h * default_scaling
+        new_x = (placement_w - 2560) * default_scaling
+        new_scaling_y = (pane_height_px * default_scaling) / result["sourceHeight"]
+        new_scaling_x = (pane_width_px * default_scaling) / result["sourceWidth"]
     else:
-        data = {
-            "item": source_name,
-            "visible": visible,
-            "position": {"y": (placement_h * 0.9), "x": ((placement_w - 2560) * 0.9)},
-            "scale": {
-                "y": ((pane_height_px * 0.9) / result["sourceHeight"]),
-                "x": ((pane_width_px * 0.9) / result["sourceWidth"]),
-            },
-        }
-    print(data)
-    result = await ws.call("SetSceneItemProperties", data)
+        new_x = result["position"]["x"]
+        new_y = result["position"]["y"]
+        new_scaling_x = result["scale"]["x"]
+        new_scaling_y = result["scale"]["y"]
+
+    change = False
+
+    if visible != result["visible"]:
+        change = True
+    elif new_y != result["position"]["y"]:
+        change = True
+    elif new_x != result["position"]["x"]:
+        change = True
+    elif new_scaling_x != result["scale"]["x"]:
+        change = True
+    elif new_scaling_y != result["scale"]["y"]:
+        change = True
+
+    if change:
+        if not visible:
+            data = {"item": source_name, "visible": visible}
+        else:
+            data = {
+                "item": source_name,
+                "visible": visible,
+                "position": {"y": new_y, "x": new_x},
+                "scale": {
+                    "y": ((pane_height_px * default_scaling) / result["sourceHeight"]),
+                    "x": ((pane_width_px * default_scaling) / result["sourceWidth"]),
+                },
+            }
+        print(data)
+        result = await ws.call("SetSceneItemProperties", data)
 
     await ws.disconnect()
 
