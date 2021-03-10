@@ -21,35 +21,40 @@ obs_password = "rexroof"
 
 
 async def window_info(title="window title"):
+    result = {}
+
     proc = await asyncio.create_subprocess_shell(
         f"xwininfo -name '{title}'",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
     stdout, stderr = await proc.communicate()
+
     if stdout:
         xwin_output = stdout.decode()
     else:
         if stderr:
             logging.warning(stderr.decode())
         return None
-    xwininfo = {}
+    # t=[line for line in s.splitlines() if ":" in line]
+    # res={line.split(": ")[0]: line.split(": ")[1] for line in t}
     for line in xwin_output.split("\n"):
         if "Absolute upper-left X" in line:
-            x11x = int(line.split(":")[1].strip())
-        if "Absolute upper-left Y" in line:
-            x11y = int(line.split(":")[1].strip())
-        if "Width" in line:
-            xwidth = int(line.split(":")[1].strip())
-        if "Height" in line:
-            xheight = int(line.split(":")[1].strip())
+            result["x11x"] = int(line.split(":")[1].strip())
+        elif "Absolute upper-left Y" in line:
+            result["x11y"] = int(line.split(":")[1].strip())
+        elif "Width" in line:
+            result["xwidth"] = int(line.split(":")[1].strip())
+        elif "Height" in line:
+            result["xheight"] = int(line.split(":")[1].strip())
     # quick sanity check if h/w are set
-    if not xwidth or xwidth < 1:
+    if not result["xwidth"] or result["xwidth"] < 1:
         return None
-    if not xheight or xheight < 1:
+    if not result["xheight"] or result["xheight"] < 1:
         return None
-    logging.debug(f"window_info {x11x} {x11y} {xwidth} {xheight}")
-    return x11x, x11y, xwidth, xheight
+    logging.debug(f"window_info {result}")
+
+    return result
 
 
 async def active_window():
@@ -69,6 +74,8 @@ async def active_window():
 
 # query tmux for our pane
 async def tmux_info(pane_title="findme"):
+    result = {}
+
     tmux_format = "#T #{window_width} #{window_height} #{pane_top} #{pane_left} #{pane_height} #{pane_width} #{window_active_sessions} #{window_flags}"
     cmd = (
         "tmux list-panes -af '#{==:#{pane_title},"
@@ -92,48 +99,42 @@ async def tmux_info(pane_title="findme"):
 
     if len(tmux_specs) > 0:
         logging.debug(tmux_specs)
-        tmux_window_width = int(tmux_specs[1])
-        tmux_window_height = int(tmux_specs[2])
-        tmux_pane_top = int(tmux_specs[3])
-        tmux_pane_left = int(tmux_specs[4])
-        tmux_pane_height = int(tmux_specs[5])
-        tmux_pane_width = int(tmux_specs[6])
-        tmux_window_active_sessions = int(tmux_specs[7])
-        tmux_window_flags = tmux_specs[8]
+        result["tmux_window_width"] = int(tmux_specs[1])
+        result["tmux_window_height"] = int(tmux_specs[2])
+        result["tmux_pane_top"] = int(tmux_specs[3])
+        result["tmux_pane_left"] = int(tmux_specs[4])
+        result["tmux_pane_height"] = int(tmux_specs[5])
+        result["tmux_pane_width"] = int(tmux_specs[6])
+        result["tmux_window_active_sessions"] = int(tmux_specs[7])
+        result["tmux_window_flags"] = tmux_specs[8]
     else:
         return None
 
-    logging.debug("tmux geometry: {tmux_window_height} {tmux_window_width}")
+    logging.debug("tmux geometry: {result}")
 
-    if not tmux_window_flags:
-        visible = False
+    if not result["tmux_window_flags"]:
+        return None
 
-    if tmux_window_active_sessions == 0:
-        visible = False
+    print(f"tmux_window_active_sessions {result['tmux_window_active_sessions']}")
+    if result["tmux_window_active_sessions"] == 0:
+        return None
 
-    if tmux_window_flags != "*":
-        visible = False
+    print(f"tmux_window_flags {result['tmux_window_flags']}")
+    if result["tmux_window_flags"] != "*":
+        return None
 
-    return (
-        tmux_window_width,
-        tmux_window_height,
-        tmux_pane_top,
-        tmux_pane_left,
-        tmux_pane_height,
-        tmux_pane_width,
-        tmux_window_active_sessions,
-        tmux_window_flags,
-    )
+    return result
 
 
 async def main_loop():
     visible = True
 
-    x11x, x11y, xwidth, xheight = await window_info(title)
+    xinfo = await window_info(title)
+
     # x11x is the left/right location
     # x11y is the up/down location
 
-    if x11x is None:
+    if xinfo is None:
         visible = False
 
     # we should check  xdotool getactivewindow getwindowname
@@ -146,40 +147,33 @@ async def main_loop():
     if active is None:
         visible = False
 
-    # remove 26 characters for the tmux status bar
-    xheight -= 26
+    if visible:
+        # remove 26 characters for the tmux status bar
+        xinfo["xheight"] -= 26
 
-    (
-        tmux_window_width,
-        tmux_window_height,
-        tmux_pane_top,
-        tmux_pane_left,
-        tmux_pane_height,
-        tmux_pane_width,
-        tmux_window_active_sessions,
-        tmux_window_flags,
-    ) = await tmux_info(pane_title)
+        tmuxinfo = await tmux_info(pane_title)
 
-    if tmux_window_width is None:
-        visible = False
+        if tmuxinfo is None:
+            visible = False
 
-    # these mod values are roughly our character height/width
-    width_mod = xwidth / tmux_window_width
-    height_mod = xheight / tmux_window_height
+    if visible:
+        # these mod values are roughly our character height/width
+        width_mod = xinfo["xwidth"] / tmuxinfo["tmux_window_width"]
+        height_mod = xinfo["xheight"] / tmuxinfo["tmux_window_height"]
 
-    # estimate pane height/width
-    pane_height_px = height_mod * tmux_pane_height
-    pane_width_px = width_mod * tmux_pane_width
+        # estimate pane height/width
+        pane_height_px = height_mod * tmuxinfo["tmux_pane_height"]
+        pane_width_px = width_mod * tmuxinfo["tmux_pane_width"]
 
-    # estimate the X/Y of where the pane is in the window
-    pane_offset_w_px = tmux_pane_left * width_mod
-    pane_offset_h_px = tmux_pane_top * height_mod
+        # estimate the X/Y of where the pane is in the window
+        pane_offset_w_px = tmuxinfo["tmux_pane_left"] * width_mod
+        pane_offset_h_px = tmuxinfo["tmux_pane_top"] * height_mod
 
-    # this figures out the X/Y coordinates of our pane in the entire X11 view.
-    # placement_w =   window location + pane left * pixel mods
-    placement_w = x11x + pane_offset_w_px
-    # placement_h =   window location + pane top * pixel mods
-    placement_h = x11y + pane_offset_h_px
+        # this figures out the X/Y coordinates of our pane in the entire X11 view.
+        # placement_w =   window location + pane left * pixel mods
+        placement_w = xinfo["x11x"] + pane_offset_w_px
+        # placement_h =   window location + pane top * pixel mods
+        placement_h = xinfo["x11y"] + pane_offset_h_px
 
     await ws.connect()
 
@@ -188,15 +182,18 @@ async def main_loop():
 
     # everything is *0.9 because my desktop is scaled to 0.9 in OBS
 
-    data = {
-        "item": source_name,
-        "visible": visible,
-        "position": {"y": (placement_h * 0.9), "x": ((placement_w - 2560) * 0.9)},
-        "scale": {
-            "y": ((pane_height_px * 0.9) / result["sourceHeight"]),
-            "x": ((pane_width_px * 0.9) / result["sourceWidth"]),
-        },
-    }
+    if not visible:
+        data = {"item": source_name, "visible": visible}
+    else:
+        data = {
+            "item": source_name,
+            "visible": visible,
+            "position": {"y": (placement_h * 0.9), "x": ((placement_w - 2560) * 0.9)},
+            "scale": {
+                "y": ((pane_height_px * 0.9) / result["sourceHeight"]),
+                "x": ((pane_width_px * 0.9) / result["sourceWidth"]),
+            },
+        }
     print(data)
     result = await ws.call("SetSceneItemProperties", data)
 
