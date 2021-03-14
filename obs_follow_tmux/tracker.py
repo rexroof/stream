@@ -2,6 +2,7 @@
 import subprocess
 import sys
 import pprint
+from time import sleep
 import simpleobsws, json, asyncio
 import logging
 import os
@@ -154,7 +155,7 @@ async def main_loop():
 
     if visible:
         # remove 26 characters for the tmux status bar
-        xinfo["xheight"] -= 26
+        # xinfo["xheight"] -= 26
 
         tmuxinfo = await tmux_info(pane_title)
 
@@ -164,15 +165,15 @@ async def main_loop():
     if visible:
         # these mod values are roughly our character height/width
         width_mod = xinfo["xwidth"] / tmuxinfo["tmux_window_width"]
-        height_mod = xinfo["xheight"] / tmuxinfo["tmux_window_height"]
+        height_mod = xinfo["xheight"] / (tmuxinfo["tmux_window_height"] + 1)
 
         # estimate pane height/width
         pane_height_px = height_mod * tmuxinfo["tmux_pane_height"]
         pane_width_px = width_mod * tmuxinfo["tmux_pane_width"]
 
         # estimate the X/Y of where the pane is in the window
-        pane_offset_w_px = tmuxinfo["tmux_pane_left"] * width_mod
-        pane_offset_h_px = tmuxinfo["tmux_pane_top"] * height_mod
+        pane_offset_w_px = (tmuxinfo["tmux_pane_left"] - 1) * width_mod
+        pane_offset_h_px = (tmuxinfo["tmux_pane_top"] - 1) * height_mod
 
         # this figures out the X/Y coordinates of our pane in the entire X11 view.
         # placement_w =   window location + pane left * pixel mods
@@ -199,14 +200,19 @@ async def main_loop():
     change = False
 
     if visible != result["visible"]:
+        print("visible")
         change = True
     elif new_y != result["position"]["y"]:
+        print("new_y", new_y, result["position"]["y"])
         change = True
     elif new_x != result["position"]["x"]:
+        print("new_x", new_x, result["position"]["x"])
         change = True
     elif new_scaling_x != result["scale"]["x"]:
+        print("scaling_x", new_scaling_x, result["scale"]["y"])
         change = True
     elif new_scaling_y != result["scale"]["y"]:
+        print("scaling_y", new_scaling_x, result["scale"]["x"])
         change = True
 
     if change:
@@ -231,7 +237,15 @@ async def main_loop():
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 
+async def forever():
+    # your infinite loop here, for example:
+    while True:
+        await main_loop()
+        sleep(0.50)
+
+
 # now for the OBS stuff
 loop = asyncio.get_event_loop()
+
 ws = simpleobsws.obsws(host=obs_host, port=obs_port, password=obs_password, loop=loop)
-loop.run_until_complete(main_loop())
+loop.run_until_complete(forever())
