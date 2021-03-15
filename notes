@@ -1,16 +1,20 @@
-- sunday
+- monday
 
 today:
-** - fixed camera sizing in tmux
-** - check user pattern for phaazon_
-** - wire up channel points to change fonts
-** - add #fonts
+- different base image?
+- do we want a specific window for claims?
+  - only able to #claim after talk is over?
+  - short window?
+** - set talk title via bot
+** - record what talks a user has claimed.
+** - fix font command, account for no font found
 
 todo:
+[stupac62]: I think it’s be cool to welcome them with a bonsai. Maybe for subs that chat for first time. And new follows and subs.
+- Eton University degree
+- install Fantasque font
+- fix cropping/stretching on camera
+- disable point redemption notice for font change
+- fix tracker when not on stream, fail gracefully
+  - maybe fix math for placement
 - move all stream scripts into new repo
-
-
-https://github.com/rexroof/notrexroof-twitch-bot/blob/master/font-family-list.txt
-
-jetbrains, monofur, roboto, spacemono, iosevka
-
