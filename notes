@@ -1,12 +1,16 @@
-- friday
+- sunday
 
 today:
-- update tau client to respond to more events
+** - fixed camera sizing in tmux
+** - check user pattern for phaazon_
+** - wire up channel points to change fonts
+** - add #fonts
 
 todo:
-- add current points to adjustment output
-[oskarallan]: we need a #widerex cmd
-- respond to ! commands with snark
+- move all stream scripts into new repo
 
-weekend:
-clean keyboard
+
+https://github.com/rexroof/notrexroof-twitch-bot/blob/master/font-family-list.txt
+
+jetbrains, monofur, roboto, spacemono, iosevka
+
