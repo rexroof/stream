@@ -1,20 +1,28 @@
-- monday
+- wednesday
 
 today:
-- different base image?
-- do we want a specific window for claims?
-  - only able to #claim after talk is over?
-  - short window?
-** - set talk title via bot
-** - record what talks a user has claimed.
-** - fix font command, account for no font found
 
 todo:
-[stupac62]: I think it’s be cool to welcome them with a bonsai. Maybe for subs that chat for first time. And new follows and subs.
-- Eton University degree
-- install Fantasque font
-- fix cropping/stretching on camera
-- disable point redemption notice for font change
-- fix tracker when not on stream, fail gracefully
-  - maybe fix math for placement
-- move all stream scripts into new repo
+- resources and limits and scheduling
+regarding tmux pane location:
+[stupac62]: "should" can you verify by doing your own calc tho?
+[stupac62]: since we know 0 y value works perfectly, just count the total rows and verify against what tmux is giving you for the lower pane's y axis
+
+
+hpa:
+- CRD and controller
+- definitions on pod
+- requires metrics server
+
+# probably not useful for this.
+# installed kube-state-metrics
+# git clone https://github.com/kubernetes/kube-state-metrics.git
+# kubectl create -f kube-state-metrics/examples/standard/
+
+# installed metrics-server
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+installed kuard deployment
+- added kuard service
+
+
