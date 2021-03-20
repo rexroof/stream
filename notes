@@ -1,28 +1,26 @@
-- wednesday
+- friday
 
 today:
+- try to line up camera in tmux
+   - desktop scaling (0.9 in both directions)
+- create cropping mechanism
+- tracker dying in alternate scenes
+- don't repeat operations of camera hasn't moved
+- tmux bindings:
+   - notes?
+   - camera?
+   - what should be behind my camera?!
+- tell when terminal is visible
+- move chat-window into stream repo
+  - including tmux command
+- clean up old obs camera tracker repo
+- fix dark chatters (nyxiative)
+** - toggle eton on/off with rexruff
+- maybe kubernetes-novice
+
 
 todo:
-- resources and limits and scheduling
-regarding tmux pane location:
-[stupac62]: "should" can you verify by doing your own calc tho?
-[stupac62]: since we know 0 y value works perfectly, just count the total rows and verify against what tmux is giving you for the lower pane's y axis
-
-
-hpa:
-- CRD and controller
-- definitions on pod
-- requires metrics server
-
-# probably not useful for this.
-# installed kube-state-metrics
-# git clone https://github.com/kubernetes/kube-state-metrics.git
-# kubectl create -f kube-state-metrics/examples/standard/
-
-# installed metrics-server
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-
-installed kuard deployment
-- added kuard service
-
-
+- when tracker code exits should it hide source?
+- regex to find header section in manpage.
+  - blank line followed by search string 
+- do backups of bot storage
