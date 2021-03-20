@@ -11,7 +11,8 @@ import os
 # our x11 window title that we're looking for.
 title = "Twitch Terminal"
 # the tmux pane we're looking for.
-pane_title = "findme"
+# pane_title = "findme"
+pane_title = "cam-ohSh4Eak"
 # our obs source name that we're affecting
 # source_name = "orange"
 source_name = "floatycam"
@@ -165,15 +166,20 @@ async def main_loop():
     if visible:
         # these mod values are roughly our character height/width
         width_mod = xinfo["xwidth"] / tmuxinfo["tmux_window_width"]
+        # +1 here is to add back the tmux status bar
         height_mod = xinfo["xheight"] / (tmuxinfo["tmux_window_height"] + 1)
+
+        print(f"{width_mod} {height_mod}")
 
         # estimate pane height/width
         pane_height_px = height_mod * tmuxinfo["tmux_pane_height"]
         pane_width_px = width_mod * tmuxinfo["tmux_pane_width"]
 
+        # pane_left is the actual separator column (aka |)
+        # pane top is also the separator row (aka ---- )
         # estimate the X/Y of where the pane is in the window
-        pane_offset_w_px = (tmuxinfo["tmux_pane_left"] - 1) * width_mod
-        pane_offset_h_px = (tmuxinfo["tmux_pane_top"] - 1) * height_mod
+        pane_offset_w_px = (tmuxinfo["tmux_pane_left"]) * width_mod
+        pane_offset_h_px = (tmuxinfo["tmux_pane_top"]) * height_mod
 
         # this figures out the X/Y coordinates of our pane in the entire X11 view.
         # placement_w =   window location + pane left * pixel mods
@@ -185,6 +191,10 @@ async def main_loop():
 
     data = {"item": source_name}
     result = await ws.call("GetSceneItemProperties", data)
+
+    # double checking our current scene has our camera in it
+    if "visible" not in result:
+        visible = False
 
     if visible:
         new_y = placement_h * default_scaling
@@ -200,19 +210,19 @@ async def main_loop():
     change = False
 
     if visible != result["visible"]:
-        print("visible")
+        logging.debug("visible")
         change = True
     elif new_y != result["position"]["y"]:
-        print("new_y", new_y, result["position"]["y"])
+        logging.debug("new_y", new_y, result["position"]["y"])
         change = True
     elif new_x != result["position"]["x"]:
-        print("new_x", new_x, result["position"]["x"])
+        logging.debug("new_x", new_x, result["position"]["x"])
         change = True
     elif new_scaling_x != result["scale"]["x"]:
-        print("scaling_x", new_scaling_x, result["scale"]["y"])
+        logging.debug("scaling_x", new_scaling_x, result["scale"]["y"])
         change = True
     elif new_scaling_y != result["scale"]["y"]:
-        print("scaling_y", new_scaling_x, result["scale"]["x"])
+        logging.debug("scaling_y", new_scaling_x, result["scale"]["x"])
         change = True
 
     if change:
@@ -228,7 +238,7 @@ async def main_loop():
                     "x": ((pane_width_px * default_scaling) / result["sourceWidth"]),
                 },
             }
-        print(data)
+        logging.debug(data)
         result = await ws.call("SetSceneItemProperties", data)
 
     await ws.disconnect()
