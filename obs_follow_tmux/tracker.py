@@ -133,9 +133,8 @@ async def tmux_info(pane_title="findme"):
     return result
 
 
-async def main_loop():
+async def main_loop(previous={}):
     visible = True
-
     xinfo = await window_info(title)
 
     # x11x is the left/right location
@@ -169,8 +168,6 @@ async def main_loop():
         # +1 here is to add back the tmux status bar
         height_mod = xinfo["xheight"] / (tmuxinfo["tmux_window_height"] + 1)
 
-        print(f"{width_mod} {height_mod}")
-
         # estimate pane height/width
         pane_height_px = height_mod * tmuxinfo["tmux_pane_height"]
         pane_width_px = width_mod * tmuxinfo["tmux_pane_width"]
@@ -187,10 +184,12 @@ async def main_loop():
         # placement_h =   window location + pane top * pixel mods
         placement_h = xinfo["x11y"] + pane_offset_h_px
 
-    await ws.connect()
-
     data = {"item": source_name}
     result = await ws.call("GetSceneItemProperties", data)
+
+    # if our scene item doesn't exist in current scene, eject!
+    if result["status"] == "error":
+        return previous
 
     # double checking our current scene has our camera in it
     if "visible" not in result:
@@ -207,51 +206,45 @@ async def main_loop():
         new_scaling_x = result["scale"]["x"]
         new_scaling_y = result["scale"]["y"]
 
-    change = False
-
-    if visible != result["visible"]:
-        logging.debug("visible")
-        change = True
-    elif new_y != result["position"]["y"]:
-        logging.debug("new_y", new_y, result["position"]["y"])
-        change = True
-    elif new_x != result["position"]["x"]:
-        logging.debug("new_x", new_x, result["position"]["x"])
-        change = True
-    elif new_scaling_x != result["scale"]["x"]:
-        logging.debug("scaling_x", new_scaling_x, result["scale"]["y"])
-        change = True
-    elif new_scaling_y != result["scale"]["y"]:
-        logging.debug("scaling_y", new_scaling_x, result["scale"]["x"])
-        change = True
-
-    if change:
-        if not visible:
-            data = {"item": source_name, "visible": visible}
-        else:
-            data = {
-                "item": source_name,
-                "visible": visible,
-                "position": {"y": new_y, "x": new_x},
-                "scale": {
-                    "y": ((pane_height_px * default_scaling) / result["sourceHeight"]),
-                    "x": ((pane_width_px * default_scaling) / result["sourceWidth"]),
-                },
-            }
-        logging.debug(data)
+    if not visible:
+        data = {"item": source_name, "visible": visible}
+    else:
+        data = {
+            "item": source_name,
+            "visible": visible,
+            "position": {"y": new_y, "x": new_x},
+            "scale": {
+                "y": ((pane_height_px * default_scaling) / result["sourceHeight"]),
+                "x": ((pane_width_px * default_scaling) / result["sourceWidth"]),
+            },
+        }
+    logging.debug(data)
+    if data == previous:
+        logging.debug("skipping write, data the same")
+    else:
         result = await ws.call("SetSceneItemProperties", data)
-
-    await ws.disconnect()
+    # returning data to track as previous
+    return data
 
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 
 async def forever():
+
+    # dict for keeping track of the previous data we sent to obs
+    previous = {
+        "item": source_name,
+        "visible": False,
+        "position": {"y": 0, "x": 0},
+        "scale": {"y": 1.0, "x": 1.0},
+    }
     # your infinite loop here, for example:
+    await ws.connect()
     while True:
-        await main_loop()
+        previous = await main_loop(previous)
         sleep(0.50)
+    await ws.disconnect()
 
 
 # now for the OBS stuff
