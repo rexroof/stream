@@ -16,6 +16,7 @@ pane_title = "cam-ohSh4Eak"
 # our obs source name that we're affecting
 # source_name = "orange"
 source_name = "floatycam"
+
 # obs websocket details
 obs_host = "127.0.0.1"
 obs_port = 4444
@@ -136,6 +137,8 @@ async def tmux_info(pane_title="findme"):
 async def main_loop(previous={}):
     visible = True
     xinfo = await window_info(title)
+    side_cropping = 0
+    top_cropping = 0
 
     # x11x is the left/right location
     # x11y is the up/down location
@@ -200,6 +203,36 @@ async def main_loop(previous={}):
         new_x = (placement_w - 2560) * default_scaling
         new_scaling_y = (pane_height_px * default_scaling) / result["sourceHeight"]
         new_scaling_x = (pane_width_px * default_scaling) / result["sourceWidth"]
+
+        source_aspect = result["sourceWidth"] / result["sourceHeight"]
+        pane_aspect = pane_width_px / pane_height_px
+        print(f"source: {source_aspect} pane: {pane_aspect}")
+
+        if pane_aspect < source_aspect:
+            # pin height, crop sides
+            new_scaling_x = new_scaling_y
+            s_width = result["sourceWidth"] * new_scaling_x * default_scaling
+            side_cropping = abs(s_width - pane_width_px) / 2
+            side_cropping = side_cropping * result["sourceWidth"] / s_width
+            # side_cropping = side_cropping * new_scaling_x
+
+            print(f"pane_height {pane_height_px} swidth {s_width}")
+            print(f"top crop: {top_cropping}")
+            print(f"side crop: {side_cropping}")
+
+        elif pane_aspect > source_aspect:
+            # pin width, crop top/bottom
+            new_scaling_y = new_scaling_x
+            s_height = result["sourceHeight"] * new_scaling_y * default_scaling
+            top_cropping = abs(s_height - pane_height_px) / 2
+            top_cropping = top_cropping * result["sourceHeight"] / s_height
+            # side_cropping = side_cropping * new_scaling_x
+            # top_cropping = top_cropping * new_scaling_y
+
+            print(f"pane_width {pane_width_px} sheight {s_height}")
+            print(f"top crop: {top_cropping}")
+            print(f"side crop: {side_cropping}")
+
     else:
         new_x = result["position"]["x"]
         new_y = result["position"]["y"]
@@ -212,11 +245,14 @@ async def main_loop(previous={}):
         data = {
             "item": source_name,
             "visible": visible,
-            "position": {"y": new_y, "x": new_x},
-            "scale": {
-                "y": ((pane_height_px * default_scaling) / result["sourceHeight"]),
-                "x": ((pane_width_px * default_scaling) / result["sourceWidth"]),
+            "crop": {
+                "bottom": top_cropping,
+                "left": side_cropping,
+                "right": side_cropping,
+                "top": top_cropping,
             },
+            "position": {"y": new_y, "x": new_x},
+            "scale": {"y": new_scaling_y, "x": new_scaling_x},
         }
     logging.debug(data)
     if data == previous:
@@ -235,6 +271,7 @@ async def forever():
     # dict for keeping track of the previous data we sent to obs
     previous = {
         "item": source_name,
+        "crop": {"bottom": 0, "left": 0, "right": 0, "top": 0},
         "visible": False,
         "position": {"y": 0, "x": 0},
         "scale": {"y": 1.0, "x": 1.0},
