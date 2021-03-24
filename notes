@@ -1,26 +1,24 @@
-- friday
+- monday
 
 today:
-- try to line up camera in tmux
-   - desktop scaling (0.9 in both directions)
-- create cropping mechanism
-- tracker dying in alternate scenes
-- don't repeat operations of camera hasn't moved
-- tmux bindings:
-   - notes?
-   - camera?
-   - what should be behind my camera?!
-- tell when terminal is visible
-- move chat-window into stream repo
-  - including tmux command
-- clean up old obs camera tracker repo
-- fix dark chatters (nyxiative)
-** - toggle eton on/off with rexruff
-- maybe kubernetes-novice
-
+- add cropping to tmux cam?
+- add formatting to #reply ?
 
 todo:
 - when tracker code exits should it hide source?
-- regex to find header section in manpage.
-  - blank line followed by search string 
 - do backups of bot storage
+
+[oskarallan]: change-inside and change-around is how i remember it
+[cafce25]: could read it as (f)ind character
+
+--- 
+[cafce25]: vertical seems fine
+[cafce25]: horizontal is weird
+[cafce25]: i think its / instead of * new_scaling_
+[cafce25]: new_scaling = s_width / result[]
+[cafce25]: and we * by result[] / s_width
+[cafce25]: if we divide both sides by s_width in line 226
+[cafce25]: we get "new_scaling = s_width / result[...]"
+[cafce25]: yea height
+[cafce25]: no i mean result[..]
+[cafce25]: NotLikeThis
