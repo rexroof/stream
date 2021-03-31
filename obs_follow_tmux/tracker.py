@@ -25,6 +25,9 @@ obs_password = "rexroof"
 # this is the scaling of our desktop inside obs.
 default_scaling = 0.9
 
+# whether to do cropping
+docropping = False
+
 
 async def window_info(title="window title"):
     result = {}
@@ -204,14 +207,20 @@ async def main_loop(previous={}):
         new_scaling_y = (pane_height_px * default_scaling) / result["sourceHeight"]
         new_scaling_x = (pane_width_px * default_scaling) / result["sourceWidth"]
 
-        source_aspect = result["sourceWidth"] / result["sourceHeight"]
-        pane_aspect = pane_width_px / pane_height_px
+        if docropping:
+            source_aspect = result["sourceWidth"] / result["sourceHeight"]
+            pane_aspect = pane_width_px / pane_height_px
+        else:
+            source_aspect = 1
+            pane_aspect = 1
+
         print(f"source: {source_aspect} pane: {pane_aspect}")
+        print(f"scaling_x: {new_scaling_x} scaling_y: {new_scaling_y}")
 
         if pane_aspect < source_aspect:
             # pin height, crop sides
             new_scaling_x = new_scaling_y
-            s_width = result["sourceWidth"] * new_scaling_x * default_scaling
+            s_width = result["sourceWidth"] * new_scaling_x
             side_cropping = abs(s_width - pane_width_px) / 2
             side_cropping = side_cropping * result["sourceWidth"] / s_width
             # side_cropping = side_cropping * new_scaling_x
@@ -223,7 +232,7 @@ async def main_loop(previous={}):
         elif pane_aspect > source_aspect:
             # pin width, crop top/bottom
             new_scaling_y = new_scaling_x
-            s_height = result["sourceHeight"] * new_scaling_y * default_scaling
+            s_height = result["sourceHeight"] * new_scaling_y
             top_cropping = abs(s_height - pane_height_px) / 2
             top_cropping = top_cropping * result["sourceHeight"] / s_height
             # side_cropping = side_cropping * new_scaling_x
