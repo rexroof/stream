@@ -1,11 +1,12 @@
-- wednesday
+- friday
 
 today:
-- look at cam code
-- go back to istio
+- set up jenkins in kubernetes
+- build pipeline in test repo?
+- try nodejs/python/golang?
 
 weekend:
 
 todo:
-- query current font?
-
+- add emote options to #drop
+   - need optional {one} tags
