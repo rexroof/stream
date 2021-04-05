@@ -106,7 +106,9 @@ async def tmux_info(pane_title="findme"):
             logging.warning(stderr.decode())
         return None
 
-    if len(tmux_specs) > 0:
+    if len(tmux_specs) > 0 and len(tmux_specs) < 9:
+        print(tmux_specs)
+    elif len(tmux_specs) == 9:
         logging.debug(tmux_specs)
         result["tmux_window_width"] = int(tmux_specs[1])
         result["tmux_window_height"] = int(tmux_specs[2])
