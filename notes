@@ -1,12 +1,32 @@
-- friday
+- monday
 
 today:
-- set up jenkins in kubernetes
-- build pipeline in test repo?
-- try nodejs/python/golang?
-
-weekend:
+- explore tmux config
+- add prefix layer
+- query options for visual-activity
 
 todo:
-- add emote options to #drop
-   - need optional {one} tags
+
+- when pane is zoomed it disappears
+- what to do in terminal when EtonTreats/EtonPets?
+# set-hook -g after-new-window 'run-shell /home/rex/bin/chat-window.sh'
+[nyxiative]: I basically do "run xclip -o | tmux loadb" \; paste-buffer
+
+
+
+nyxiative brings this up on discord: making tmux modal
+https://www.reddit.com/r/tmux/comments/einuqy/make_tmux_modal/
+
+  File "./tracker.py", line 118, in tmux_info
+    result["tmux_window_flags"] = tmux_specs[8]
+IndexError: list index out of range
+
+
+
+    tmuxinfo = await tmux_info(pane_title)
+  File "./tracker.py", line 118, in tmux_info
+    result["tmux_window_flags"] = tmux_specs[8]
+IndexError: list index out of range
+
+
+
