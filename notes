@@ -1,35 +1,10 @@
-- channel trailer
+- friday
 
 today:
-- podman in jenkins in kubernetes?
+- jenkins in kubernetes still!
 
 todo:
-- separate tmux configs, twitch, work
-- fix multiple alerts firing at once
-- make test alert look prettier for arbaya
-- tekton.dev
-- can we timeout tmux scrollback for inactivity?
-- fully remove ngrok from notrexroofbot
-- finally fix tmux window flags in camera python
+- add ingress install to play-along repo
 
-[stupac62]: he needs some sound notifications
-
-
-
-
-
-['cam-ohSh4Eak', '137', '48', '0', '0', '17', '45', '0']
-Traceback (most recent call last):
-  File "./tracker.py", line 302, in <module>
-    loop.run_until_complete(forever())
-  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
-    return future.result()
-  File "./tracker.py", line 293, in forever
-    previous = await main_loop(previous)
-  File "./tracker.py", line 168, in main_loop
-    tmuxinfo = await tmux_info(pane_title)
-  File "./tracker.py", line 126, in tmux_info
-    if not result["tmux_window_flags"]:
-KeyError: 'tmux_window_flags'
-
-
+[arbaya]: I use my divisive opinions to make friends as I don't have a personality
+[arbaya]: a random chance to time you out
