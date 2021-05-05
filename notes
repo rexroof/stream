@@ -1,19 +1,20 @@
-- friday
+- wednesday
 
 today:
-- check on tau notifications
-  - busted
-  - use twitch api to inspect open webhooks
-- updating camera tracker for new monitor
+- fix camera scaling
+- wire up eton cam to tmux keys.
+- change toggle eton script
+- add sound framework?
+- keep camera on when lost focus?`
 
 todo:
-- wire up eton cam to tmux keys.
-- rewrite tmux config from scratch
 
-[nperry0]: i want to do a telescope like thing but in tmux
-- generic fzf tmux bindings
-- train eton to reply to chat? 
-  - play sound, treats 
+
+[oskarallan]: good $TIMEOFDAY too you too!
+[stupac62]: You should just disable automod. It’s useless IMO
+[stupac62]: where is the gear channel!?
+[stupac62]: what if it's executable and I just do script.sh ?
+
+
 
 weekend:
-- clean boxes out of office
