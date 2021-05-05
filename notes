@@ -1,13 +1,19 @@
-- wednesday
+- friday
 
 today:
-- what is localhost
-- how to open ports in development
+- check on tau notifications
+  - busted
+  - use twitch api to inspect open webhooks
+- updating camera tracker for new monitor
 
 todo:
-- fix tau notifications
+- wire up eton cam to tmux keys.
+- rewrite tmux config from scratch
 
+[nperry0]: i want to do a telescope like thing but in tmux
+- generic fzf tmux bindings
+- train eton to reply to chat? 
+  - play sound, treats 
 
-[dario_satu]: might worth mentioning that it's an internet standard
-[dario_satu]: a bridge is a Linux driver (in this case) that gets configured to passthru packets to/from other (virtual) ethernet interfaces
-[stupac62]: "my sub brings all the begins to the  yard, and they're like I doubt he's comiing." haha
+weekend:
+- clean boxes out of office
