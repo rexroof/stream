@@ -1,20 +1,20 @@
-- wednesday
+- friday
 
 today:
-- fix camera scaling
-- wire up eton cam to tmux keys.
-- change toggle eton script
-- add sound framework?
-- keep camera on when lost focus?`
+* look into chat-bonsai?
+* change toggle eton script
+- make sub/follow alerts render faster, stick around though
+- add sound framework
+- sub message doesn't have user, file issue with tau
 
 todo:
 
-
-[oskarallan]: good $TIMEOFDAY too you too!
-[stupac62]: You should just disable automod. It’s useless IMO
-[stupac62]: where is the gear channel!?
-[stupac62]: what if it's executable and I just do script.sh ?
-
+- update tauevents object to work with real twitch events
+- key combo to fix camera aspect?
+- resize browser to not block cameras?
+- fix bug with eton-chat script, not opening panes properly
 
 
-weekend:
+cam errors:
+if not result["tmux_window_flags"]:
+KeyError: 'tmux_window_flags'
