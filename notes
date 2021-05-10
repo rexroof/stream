@@ -1,20 +1,17 @@
-- friday
+- monday
 
 today:
-* look into chat-bonsai?
-* change toggle eton script
-- make sub/follow alerts render faster, stick around though
-- add sound framework
-- sub message doesn't have user, file issue with tau
-
-todo:
-
-- update tauevents object to work with real twitch events
-- key combo to fix camera aspect?
-- resize browser to not block cameras?
-- fix bug with eton-chat script, not opening panes properly
+- tmux sessions
+- tau events json
+- golang event sounds
 
 
-cam errors:
-if not result["tmux_window_flags"]:
-KeyError: 'tmux_window_flags'
+todo: 
+**  key command to zoom into camera or eton 
+- tmux key to just zoom cam or eton
+- eton domain name?
+- fix eton camera dimensions
+
+
+[oskarallan]: nice, i too have a monthly donation to terminals without borders
+
