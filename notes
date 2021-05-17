@@ -1,17 +1,17 @@
-- monday
+- wednesday
 
 today:
-- tmux sessions
-- tau events json
-- golang event sounds
+[X] chat-and-eton script (again)
+[X] alacritty selections?
+[ ] supervisord in tau
+  - add sensible defaults to env
+  - start.sh ?
+  - what is the point of loadenv?
+
+
+
 
 
 todo: 
-**  key command to zoom into camera or eton 
-- tmux key to just zoom cam or eton
-- eton domain name?
-- fix eton camera dimensions
-
-
-[oskarallan]: nice, i too have a monthly donation to terminals without borders
+  - upgrade alacritty
 
