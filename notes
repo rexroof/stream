@@ -1,17 +1,23 @@
 - wednesday
 
 today:
-[X] chat-and-eton script (again)
-[X] alacritty selections?
+[ ] tmux key for zoom cams
+  - need to identify panes somehow
+    - shell script?
+    - mark panes?
 [ ] supervisord in tau
   - add sensible defaults to env
   - start.sh ?
   - what is the point of loadenv?
 
+[ ] alacritty selections?
 
 
 
 
 todo: 
-  - upgrade alacritty
+eton's print on the envelope
+
+
+[finitesingularity]: can you replace the command with "sleep inifinty" then exec into the container and see if those env vars exist?
 
