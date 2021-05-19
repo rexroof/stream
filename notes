@@ -1,23 +1,8 @@
 - wednesday
 
 today:
-[ ] tmux key for zoom cams
-  - need to identify panes somehow
-    - shell script?
-    - mark panes?
-[ ] supervisord in tau
-  - add sensible defaults to env
-  - start.sh ?
-  - what is the point of loadenv?
-
-[ ] alacritty selections?
-
-
-
+- push tau PR 
+- start ansible role for wrecks.dev
 
 todo: 
-eton's print on the envelope
-
-
-[finitesingularity]: can you replace the command with "sleep inifinty" then exec into the container and see if those env vars exist?
-
+- tmux keys for zooming
