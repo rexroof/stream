@@ -1,8 +1,16 @@
-- wednesday
+- friday
 
 today:
-- push tau PR 
-- start ansible role for wrecks.dev
+- deploy website with ansible
+  - dns
+  - virtualhost config
+- feed the chickens
+- localhost talk outline
 
 todo: 
-- tmux keys for zooming
+- fix my ansible git repo
+- add rexroof/wrecks ssl
+- DNSSEC setup
+[finitesingularity]: Eton needs his own website..
+[dota2attitude]: I learn by being wrong a lot
+
