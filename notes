@@ -1,16 +1,15 @@
-- friday
+- monday
 
 today:
-- deploy website with ansible
-  - dns
-  - virtualhost config
+- ssl setup with lets encrypt
+  - complicated by 3 servers
+  - duplicate for other sites
+  - set up manual auth hook.
 - feed the chickens
-- localhost talk outline
 
 todo: 
-- fix my ansible git repo
-- add rexroof/wrecks ssl
-- DNSSEC setup
-[finitesingularity]: Eton needs his own website..
-[dota2attitude]: I learn by being wrong a lot
+- chat-bonsai.sh not found
+
+
+[dario_satu]: yeah but thankfully we found other ways to preserve availability without necessarily keeping each machine on forever
 
