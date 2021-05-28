@@ -6,16 +6,34 @@ from time import sleep
 import simpleobsws, json, asyncio
 import logging
 import os
+import argparse
 
+
+parser = argparse.ArgumentParser(description="OBS Camera Tracker")
+
+parser.add_argument(
+    "--pane",
+    dest="pane_title",
+    default="cam-ohSh4Eak",
+    help="pane title to use, and target",
+)
+
+parser.add_argument(
+    "--source", dest="source_name", default="floatycam", help="OBS Source to target"
+)
+
+args = parser.parse_args()
 
 # our x11 window title that we're looking for.
 title = "Twitch Terminal"
 # the tmux pane we're looking for.
 # pane_title = "findme"
-pane_title = "cam-ohSh4Eak"
+# pane_title = "cam-ohSh4Eak"
+pane_title = args.pane_title
 # our obs source name that we're affecting
 # source_name = "orange"
-source_name = "floatycam"
+# source_name = "floatycam"
+source_name = args.source_name
 
 # obs websocket details
 obs_host = "127.0.0.1"
@@ -23,10 +41,16 @@ obs_port = 4444
 obs_password = "rexroof"
 
 # this is the scaling of our desktop inside obs.
-default_scaling = 0.9
+# default_scaling = 0.9
+default_scaling = 0.75
 
 # whether to do cropping
 docropping = False
+
+# depending on if we're streaming our left or right desktop,
+#  set this to the width of the main desktop
+# w_offset = 2560
+w_offset = 0
 
 
 async def window_info(title="window title"):
@@ -85,7 +109,7 @@ async def active_window():
 async def tmux_info(pane_title="findme"):
     result = {}
 
-    tmux_format = "#T #{window_width} #{window_height} #{pane_top} #{pane_left} #{pane_height} #{pane_width} #{window_active_sessions} #{window_flags}"
+    tmux_format = "#T #{window_width} #{window_height} #{pane_top} #{pane_left} #{pane_height} #{pane_width} #{pane_active} #{window_active} #{window_active_sessions} #{window_flags}"
     cmd = (
         "tmux list-panes -af '#{==:#{pane_title},"
         + pane_title
@@ -106,9 +130,10 @@ async def tmux_info(pane_title="findme"):
             logging.warning(stderr.decode())
         return None
 
-    if len(tmux_specs) > 0 and len(tmux_specs) < 9:
+    if len(tmux_specs) > 0 and len(tmux_specs) < 11:
         print(tmux_specs)
-    elif len(tmux_specs) == 9:
+        return None
+    elif len(tmux_specs) == 11:
         logging.debug(tmux_specs)
         result["tmux_window_width"] = int(tmux_specs[1])
         result["tmux_window_height"] = int(tmux_specs[2])
@@ -116,12 +141,12 @@ async def tmux_info(pane_title="findme"):
         result["tmux_pane_left"] = int(tmux_specs[4])
         result["tmux_pane_height"] = int(tmux_specs[5])
         result["tmux_pane_width"] = int(tmux_specs[6])
-        result["tmux_window_active_sessions"] = int(tmux_specs[7])
-        result["tmux_window_flags"] = tmux_specs[8]
+        result["tmux_pane_active"] = int(tmux_specs[7])
+        result["tmux_window_active"] = int(tmux_specs[8])
+        result["tmux_window_active_sessions"] = int(tmux_specs[9])
+        result["tmux_window_flags"] = tmux_specs[10]
     else:
         return None
-
-    logging.debug("tmux geometry: {result}")
 
     if not result["tmux_window_flags"]:
         return None
@@ -129,11 +154,21 @@ async def tmux_info(pane_title="findme"):
     logging.debug(
         f"tmux_window_active_sessions {result['tmux_window_active_sessions']}"
     )
+
     if result["tmux_window_active_sessions"] == 0:
         return None
 
+    logging.debug(f"tmux_window_active {result['tmux_window_active']}")
+
+    if result["tmux_window_active"] == 0:
+        return None
+
+    logging.debug(f"tmux_pane_active {result['tmux_pane_active']}")
+    if "Z" in result["tmux_window_flags"] and (result["tmux_pane_active"] == 0):
+        return None
+
     logging.debug(f"tmux_window_flags {result['tmux_window_flags']}")
-    if result["tmux_window_flags"] != "*":
+    if "*" not in result["tmux_window_flags"]:
         return None
 
     return result
@@ -205,7 +240,7 @@ async def main_loop(previous={}):
 
     if visible:
         new_y = placement_h * default_scaling
-        new_x = (placement_w - 2560) * default_scaling
+        new_x = (placement_w - w_offset) * default_scaling
         new_scaling_y = (pane_height_px * default_scaling) / result["sourceHeight"]
         new_scaling_x = (pane_width_px * default_scaling) / result["sourceWidth"]
 
@@ -216,7 +251,6 @@ async def main_loop(previous={}):
             source_aspect = 1
             pane_aspect = 1
 
-        print(f"source: {source_aspect} pane: {pane_aspect}")
         print(f"scaling_x: {new_scaling_x} scaling_y: {new_scaling_y}")
 
         if pane_aspect < source_aspect:
