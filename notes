@@ -1,13 +1,17 @@
-- monday
+- wednesday
 
 today:
-- ssl setup with lets encrypt
-  - complicated by 3 servers
-  - duplicate for other sites
-  - set up manual auth hook.
+- manually setup ssl
 - feed the chickens
 
 todo: 
-- chat-bonsai.sh not found
+- repeat ssl for rexroof in a good way
+- automate generation of challange
+- set up for renewal
+- look at ansible vault pass is necessary
 
-[dario_satu]: yeah but thankfully we found other ways to preserve availability without necessarily keeping each machine on forever
+ 
+[sir_yawnston]: just apply thermal paste Kappa
+- thermal paste for dogs
+
+
