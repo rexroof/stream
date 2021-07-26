@@ -1,17 +1,26 @@
-- wednesday
+- friday
 
 today:
-- manually setup ssl
+- localhost demos
+- wrecks.dev
 - feed the chickens
 
+- run terminals in a screen that shows the containers
+  - graphical, or tmux layout.
+
 todo: 
-- repeat ssl for rexroof in a good way
-- automate generation of challange
-- set up for renewal
-- look at ansible vault pass is necessary
+- update active pane styling
+- can I zoom a tmux pane only across a specific area?
+- ssl for rexroof.com
+  - automate with ansible?
+  - renewal, also
+- switch tracker to using https://github.com/tmux-python/libtmux
 
- 
-[sir_yawnston]: just apply thermal paste Kappa
-- thermal paste for dogs
+weekend:
+- dog park
 
+
+
+[nyxiative]: I was looking through the doomemacs FAQ and found this qoute, "f you care about personalizing the software you use on a daily basis, even half as much as I do, then you need professional help" LUL
+[finitesingularity]: You could have Eton chat bubbles that pop up to thank followers, etc..
 
