@@ -1,26 +1,27 @@
-- friday
+- monday rebirth
+
+update my tau client secret for twitch
 
 today:
-- localhost demos
-- wrecks.dev
-- feed the chickens
 
-- run terminals in a screen that shows the containers
-  - graphical, or tmux layout.
+- does my stream work?
+- key combo to zoom cam or eton
+- can I scale a panel with tmux bindings?
 
 todo: 
-- update active pane styling
-- can I zoom a tmux pane only across a specific area?
-- ssl for rexroof.com
-  - automate with ansible?
-  - renewal, also
-- switch tracker to using https://github.com/tmux-python/libtmux
+- fix cam scene so that eton isn't hidden when tmux not active
+- have #so validate that there is a real streamer
+- replace word with pwgen output based on size of replaced word
+   [creativenull]: it should be trival with :h system() and add setline()
 
 weekend:
-- dog park
 
+[oskarallan]: impressive, I thought it was impossible to remember tar options
+[creativenull]: it should be trival with :h system() and add setline()
 
+tau:
 
-[nyxiative]: I was looking through the doomemacs FAQ and found this qoute, "f you care about personalizing the software you use on a daily basis, even half as much as I do, then you need professional help" LUL
-[finitesingularity]: You could have Eton chat bubbles that pop up to thank followers, etc..
-
+- the .env should not be built into the container
+- updated docker-compose to fix DB password issue
+- running bash ni container printed all envs.
+  - why the env | xargs stuff still?
