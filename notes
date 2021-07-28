@@ -1,27 +1,18 @@
-- monday rebirth
-
-update my tau client secret for twitch
+- wednesday
 
 today:
-
-- does my stream work?
-- key combo to zoom cam or eton
-- can I scale a panel with tmux bindings?
+- lspcontainers?
 
 todo: 
-- fix cam scene so that eton isn't hidden when tmux not active
-- have #so validate that there is a real streamer
-- replace word with pwgen output based on size of replaced word
-   [creativenull]: it should be trival with :h system() and add setline()
+- try tau again from scratch
 
-weekend:
 
-[oskarallan]: impressive, I thought it was impossible to remember tar options
-[creativenull]: it should be trival with :h system() and add setline()
+[finitesingularity]: Its got more of a rich/corn flavor..
 
-tau:
+[oskarallan]: try :lua vim.lsp.buf. and then tab your way
+[oskarallan]: and they are all functions, so you need to add () after them
+[oskarallan]: they are saying that the on_attach func only runs after a LSP is attached, so if you have keymaps that only make sense in a LSP context they wont get loaded if there isnt a LSP
 
-- the .env should not be built into the container
-- updated docker-compose to fix DB password issue
-- running bash ni container printed all envs.
-  - why the env | xargs stuff still?
+[creativenull]: not to install but to get the correct command to run in the docker container
+[creativenull]: looks like it named it as the dir name it was cloned into
+
