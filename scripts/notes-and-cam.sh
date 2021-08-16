@@ -1,7 +1,9 @@
 #!/bin/bash
 # these are the tmux pane titles
-export CAM_TITLE="cam-ohSh4Eak"
-export NOTES_TITLE="notes-quie0aeX"
+# export CAM_TITLE="cam-ohSh4Eak"
+# export NOTES_TITLE="notes-quie0aeX"
+export CAM_TITLE="rex-cam"
+export NOTES_TITLE="rex-notes"
 
 # dimensions for our panes
 NOTES_WIDTH=40
@@ -40,5 +42,5 @@ else
  campane=$(tmux split-window -t ${notespane} -vbdl $CAM_HEIGHT -P)
  tmux send-keys -t ${campane} 'cd /home/rex/github/rexroof/stream/obs_follow_tmux/' C-m
  tmux send-keys -t ${campane} "printf '\033]2;%s\033\\' ${CAM_TITLE}" C-m
- tmux send-keys -t ${campane} "clear ; figlet CAM ; ./tracker.py" C-m
+ tmux send-keys -t ${campane} "clear ; figlet CAM ; ./tracker.py --pane ${CAM_TITLE} --source floatycam" C-m
 fi

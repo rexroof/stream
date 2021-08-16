@@ -1,7 +1,9 @@
 #!/bin/bash
 # these are the tmux pane titles
-export CHAT_TITLE="chatwindowaeP8e"
-export ETON_TITLE="etoneeZ9wuxa"
+# export CHAT_TITLE="chatwindowaeP8e"
+# export ETON_TITLE="etoneeZ9wuxa"
+export CHAT_TITLE="rex-chat-window"
+export ETON_TITLE="rex-eton-cam"
 
 # dimensions for our panes
 ETON_WIDTH=45
@@ -10,7 +12,6 @@ CHAT_HEIGHT=12
 # function to find a pane in tmux, returns the ID
 find_pane () {
   TITLE=$1
-  # PANE_ID=$(tmux list-panes -as -f "#{==:#{pane_title},$TITLE}" -F '#S:#I.#D')
   PANE_ID=$(tmux list-panes -as -f "#{==:#{pane_title},$TITLE}" -F '#D')
   echo $PANE_ID
 }
