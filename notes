@@ -1,18 +1,17 @@
-- wednesday
+- monday
 
 today:
-- lspcontainers?
+- Cluster API!
 
 todo: 
-- try tau again from scratch
+
+- fix eton scaling/visibility on camera view
+- create script to disable mic filtering
+- move quick commands into QMK
+- discord bot as rex
+- keyboard toggle for camera?  
+- add new test reward using timg
 
 
-[finitesingularity]: Its got more of a rich/corn flavor..
-
-[oskarallan]: try :lua vim.lsp.buf. and then tab your way
-[oskarallan]: and they are all functions, so you need to add () after them
-[oskarallan]: they are saying that the on_attach func only runs after a LSP is attached, so if you have keymaps that only make sense in a LSP context they wont get loaded if there isnt a LSP
-
-[creativenull]: not to install but to get the correct command to run in the docker container
-[creativenull]: looks like it named it as the dir name it was cloned into
+[ivorscott]: kubectl -n <namespace> get events --sort-by='{.lastTimestamp}'
 
