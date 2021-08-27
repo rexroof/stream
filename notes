@@ -1,7 +1,7 @@
 - monday
 
 today:
-- Cluster API!
+- changing alerts
 
 todo: 
 
@@ -9,9 +9,8 @@ todo:
 - create script to disable mic filtering
 - move quick commands into QMK
 - discord bot as rex
-- keyboard toggle for camera?  
+- keyboard toggle for camera stickiness
+- tmux binding for re-scaling camera
 - add new test reward using timg
-
-
-[ivorscott]: kubectl -n <namespace> get events --sort-by='{.lastTimestamp}'
-
+- script to send github to chat
+- fix go-fmt on write, lsp for golang
