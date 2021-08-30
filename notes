@@ -9,12 +9,12 @@ todo:
 - add sounds to alerts
 - https://k8ssandra.io/get-started/
 
-- fix eton scaling/visibility on camera view
+x fix eton scaling/visibility on camera view
+x add new test reward using timg
 - create script to disable mic filtering
-- move quick commands into QMK
+- tmux binding for re-scaling camera/eton
 - discord bot as rex
 - keyboard toggle for camera stickiness
-- tmux binding for re-scaling camera/eton
-- add new test reward using timg
-- script to send github to chat
+- script to send pwd github to chat
 - fix go-fmt on write, lsp for golang
+- move quick commands into QMK
