@@ -14,12 +14,12 @@ parser = argparse.ArgumentParser(description="OBS Camera Tracker")
 parser.add_argument(
     "--pane",
     dest="pane_title",
-    default="cam-ohSh4Eak",
+    default="cam-pane",
     help="pane title to use, and target",
 )
 
 parser.add_argument(
-    "--source", dest="source_name", default="floatycam", help="OBS Source to target"
+    "--source", dest="source_name", default="camera-source", help="OBS Source to target"
 )
 
 args = parser.parse_args()
