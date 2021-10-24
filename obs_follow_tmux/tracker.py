@@ -1,9 +1,12 @@
 #!/home/rex/.venv/xpybutil/bin/python
-import subprocess
-import sys
-import pprint
+# import subprocess
+# import sys
+# import pprint
 from time import sleep
-import simpleobsws, json, asyncio
+import simpleobsws
+
+# import json
+import asyncio
 import logging
 import os
 import argparse
@@ -22,6 +25,14 @@ parser.add_argument(
     "--source", dest="source_name", default="camera-source", help="OBS Source to target"
 )
 
+parser.add_argument(
+    "--change-visible",
+    dest="change_visible",
+    default=True,
+    help="if we should toggle visibility",
+    action=argparse.BooleanOptionalAction,
+)
+
 args = parser.parse_args()
 
 # our x11 window title that we're looking for.
@@ -34,6 +45,10 @@ pane_title = args.pane_title
 # source_name = "orange"
 # source_name = "floatycam"
 source_name = args.source_name
+
+change_visible = args.change_visible
+print(f"change visible is {change_visible}")
+
 
 # obs websocket details
 obs_host = "127.0.0.1"
