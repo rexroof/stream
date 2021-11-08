@@ -1,9 +1,19 @@
-- arch saturday
+- monday
 
 today:
-- installing arch
+- fixing stream tools
+- replace my vim-deoplete?
+- fix bash completions
 
-AUR:
-- yay
-- paru
-- auracle
+plans for future streams:
+- jenkins in kubernetes vs jenkins-x
+- containers without docker?   podman?  nerdctl?
+  - can I do kind?  can I use lspcontainers?  can I run docker-compose
+  - build containers in containers without privileges
+
+
+todo:
+- fix camera scaling at some point
+- fix tau_events.py showing events
+
+
