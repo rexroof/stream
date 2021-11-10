@@ -1,9 +1,7 @@
-- monday
+- wednesday
 
 today:
-- fixing stream tools
-- replace my vim-deoplete?
-- fix bash completions
+- look at jenkins-x again
 
 plans for future streams:
 - jenkins in kubernetes vs jenkins-x
@@ -15,5 +13,9 @@ plans for future streams:
 todo:
 - fix camera scaling at some point
 - fix tau_events.py showing events
-
+- fix camera visibility, pin browser size
+- lspcontainers docker errors:
+cat /home/rex/.cache/nvim/lsp.log
+[ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"        "stderr"        "glob error [Error: EPERM: operation not permitted, scandir '/proc/1/map_files/7f3e38666000-7f3e38667000'] {\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38666000-7f3e38667000'\n}\n"
+[ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"        "stderr"        "glob error [Error: EPERM: operation not permitted, scandir '/proc/1/map_files/7f3e38667000-7f3e38668000'] {\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38667000-7f3e38668000'\n}\n"
 
