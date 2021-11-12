@@ -44,4 +44,4 @@ first_pane=$(new_pane "$CHAT_TITLE" "-vfdl $CHAT_HEIGHT" "$HOME/github/rexroof/c
 second_pane=$(new_pane "$ETON_TITLE" \
   "-hdl $ETON_WIDTH -t $first_pane" \
   "$HOME/github/rexroof/stream/obs_follow_tmux" \
-  "./tracker.py --pane ${ETON_TITLE} --source EtonBorder")
+  "./tracker.py --pane ${ETON_TITLE} --source EmbedEtonTmux")
