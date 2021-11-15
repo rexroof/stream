@@ -1,22 +1,27 @@
-- friday
+- monday
 
 today:
-- look at jenkins-x again
-- what is gitops?
+- play with containerd/ crio 
+- nerdctl/podman
+- kaniko for building?
+- earthly.dev?
+- test:
+  - kind
+  - building (buildkit?)
+    - no root?
+  - docker-compose
+  - lspcontainers?
 
 plans for future streams:
-- jenkins in kubernetes vs jenkins-x
-- containers without docker?   podman?  nerdctl?
-  - can I do kind?  can I use lspcontainers?  can I run docker-compose
-  - build containers in containers without privileges
 - try fedora core/silverblue and try to get kind working again?
 
 todo:
+- checkout framework laptop networking.
+- vim git status integration?
 - look at stream repos and get them pushed
-- debug tmux twitch expression parsing
+- debug tmux twitch expression parsing ( add env? )
 - can tau-client reconnect?
 - fix tmux colors
-- fix camera scaling at some point
 - fix tau_events.py showing events
 - fix camera visibility, pin browser size
 - lspcontainers docker errors:
@@ -24,7 +29,5 @@ cat /home/rex/.cache/nvim/lsp.log
 [ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"        "stderr"        "glob error [Error: EPERM: operation not permitted, scandir '/proc/1/map_files/7f3e38666000-7f3e38667000'] {\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38666000-7f3e38667000'\n}\n"
 [ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"        "stderr"        "glob error [Error: EPERM: operation not permitted, scandir '/proc/1/map_files/7f3e38667000-7f3e38668000'] {\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38667000-7f3e38668000'\n}\n"
 
-
 fix tau-client
 {"id": "f8b1ae91-eadd-4b26-acae-914b3eb66f60", "event_id": "P-ctX9Yj2iZEIAHsVpLmfunDJ2deNwZ7W1axFXDtst0=", "event_type": "channel-subscribe", "event_source": "EventSub", "event_data": {"user_id": "156251746", "user_login": "stupac62", "user_name": "stupac62", "broadcaster_user_id": "503715992", "broadcaster_user_login": "rexroof", "broadcaster_user_name": "rexroof", "tier": "1000", "is_gift": false}, "created": "2021-11-12T14:02:23+0000", "origin": "twitch"}
-
