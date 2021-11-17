@@ -1,6 +1,12 @@
-- monday
+- wednesday
 
 today:
+- get rootless kind working in podman
+- podman rootless building
+  - podman-compose works for rootless docker-compose
+  - kind rootless, no problemo.
+  - lspcontainers, need to auto-detect podman
+  - building, no problem
 - play with containerd/ crio 
 - nerdctl/podman
 - kaniko for building?
@@ -16,10 +22,13 @@ plans for future streams:
 - try fedora core/silverblue and try to get kind working again?
 
 todo:
+- revise neovim config detect podman
+- build podman rootless container for building
+- debug tmux twitch expression parsing ( add env? )
+- add git file status to vim statusline
 - checkout framework laptop networking.
 - vim git status integration?
 - look at stream repos and get them pushed
-- debug tmux twitch expression parsing ( add env? )
 - can tau-client reconnect?
 - fix tmux colors
 - fix tau_events.py showing events
