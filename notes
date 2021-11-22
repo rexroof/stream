@@ -1,26 +1,35 @@
-- friday
+- monday
 
 today:
-- fixing bugs in stream setup
+- adding visibility toggle to camera setup
+- experimenting with nerdctl and containers
+  - broke wireless on laptop after containerd-rootless
+
 
 plans for future streams:
 - try fedora core/silverblue and try to get kind working again?
 
 todo:
+- fix wireless on framework
+- checkout framework laptop networking.
+- can we do rootless containerd in a docker container?
 - build podman rootless container for building
 - customize lualine for my preference
 - vim command for :%!jq .
 - vim command for pwgen/uuidgen
 - add git file status to vim statusline
-- checkout framework laptop networking.
 - look at stream repos and get them pushed
 - can tau-client reconnect?
 - fix tmux colors
 - fix tau_events.py showing events
-- fix camera visibility, pin browser size
+- pin browser size to tmux
 - revisit tau "channel-subscription-message"
-
 - lspcontainers docker errors:
 cat /home/rex/.cache/nvim/lsp.log
-[ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"        "stderr"        "glob error [Error: EPERM: operation not permitted, scandir '/proc/1/map_files/7f3e38666000-7f3e38667000'] {\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38666000-7f3e38667000'\n}\n"
-[ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"        "stderr"        "glob error [Error: EPERM: operation not permitted, scandir '/proc/1/map_files/7f3e38667000-7f3e38668000'] {\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38667000-7f3e38668000'\n}\n"
+[ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"        
+"stderr"        "glob error [Error: EPERM: operation not permitted, scandir '/proc/1/map_files/7f3e38666000-7f3e38667000'] 
+{\n  errno: -1,\n  code: 'EPERM',\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38666000-7f3e38667000'\n}\n"
+[ERROR][2021-11-10 07:30:34] .../vim/lsp/rpc.lua:412    "rpc"   "docker"       
+"stderr"        "glob error [Error: EPERM: operation not permitted, scandir 
+'/proc/1/map_files/7f3e38667000-7f3e38668000'] {\n  errno: -1,\n  code: 'EPERM',
+\n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38667000-7f3e38668000'\n}\n"
