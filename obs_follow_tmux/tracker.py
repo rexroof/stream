@@ -1,9 +1,7 @@
 #!/home/rex/.venv/xpybutil/bin/python
-import subprocess
-import sys
-import pprint
 from time import sleep
-import simpleobsws, json, asyncio
+import simpleobsws
+import asyncio
 import logging
 import os
 import argparse
@@ -21,6 +19,20 @@ parser.add_argument(
 parser.add_argument(
     "--source", dest="source_name", default="camera-source", help="OBS Source to target"
 )
+
+parser.add_argument(
+    "--visibility",
+    help="change visibility when window changes",
+    dest="toggle_visible",
+    action="store_true",
+)
+parser.add_argument(
+    "--no-visibility",
+    help="do not change visibility when window changes",
+    dest="toggle_visible",
+    action="store_false",
+)
+parser.set_defaults(toggle_visible=True)
 
 args = parser.parse_args()
 
@@ -51,6 +63,16 @@ docropping = False
 #  set this to the width of the main desktop
 # w_offset = 2560
 w_offset = 0
+
+# are we toggling visibility?
+change_visible = args.toggle_visible
+
+
+def set_visible(setting=None):
+    if change_visible:
+        return setting
+    else:
+        return True
 
 
 async def window_info(title="window title"):
@@ -175,7 +197,7 @@ async def tmux_info(pane_title="findme"):
 
 
 async def main_loop(previous={}):
-    visible = True
+    visible = set_visible(True)
     xinfo = await window_info(title)
     side_cropping = 0
     top_cropping = 0
@@ -184,7 +206,7 @@ async def main_loop(previous={}):
     # x11y is the up/down location
 
     if xinfo is None:
-        visible = False
+        visible = set_visible(False)
 
     # we should check  xdotool getactivewindow getwindowname
     # to see if we are the active window, if not, pass
@@ -192,9 +214,9 @@ async def main_loop(previous={}):
     active = await active_window()
     logging.debug(f"{active} {title}")
     if active != title:
-        visible = False
+        visible = set_visible(False)
     if active is None:
-        visible = False
+        visible = set_visible(False)
 
     if visible:
         # remove 26 characters for the tmux status bar
@@ -203,7 +225,7 @@ async def main_loop(previous={}):
         tmuxinfo = await tmux_info(pane_title)
 
         if tmuxinfo is None:
-            visible = False
+            visible = set_visible(False)
 
     if visible:
         # these mod values are roughly our character height/width
@@ -236,7 +258,7 @@ async def main_loop(previous={}):
 
     # double checking our current scene has our camera in it
     if "visible" not in result:
-        visible = False
+        visible = set_visible(False)
 
     if visible:
         new_y = placement_h * default_scaling
