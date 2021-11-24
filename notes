@@ -1,16 +1,27 @@
-- monday
+- wednesday
 
 today:
-- adding visibility toggle to camera setup
-- experimenting with nerdctl and containers
-  - broke wireless on laptop after containerd-rootless
+- on vacation
+- debug issues with lspcontainers
+  - just bash?
+  - terraform?
+- learn some simple lua?
+  - function to print pwgen
+
 
 
 plans for future streams:
 - try fedora core/silverblue and try to get kind working again?
 
 todo:
+- check visibility bug below
+- chat-bonsai timeout
+- update tau-client with all tau events
+- add queuing system for tmux events
+- resize windows after stream events?
+  [carlvandergeest]: yes
 - fix wireless on framework
+- nerdctl experiments
 - checkout framework laptop networking.
 - can we do rootless containerd in a docker container?
 - build podman rootless container for building
@@ -33,3 +44,21 @@ cat /home/rex/.cache/nvim/lsp.log
 "stderr"        "glob error [Error: EPERM: operation not permitted, scandir 
 '/proc/1/map_files/7f3e38667000-7f3e38668000'] {\n  errno: -1,\n  code: 'EPERM',
 \n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38667000-7f3e38668000'\n}\n"
+
+
+
+
+
+
+Traceback (most recent call last):
+  File "./tracker.py", line 358, in <module>
+    loop.run_until_complete(forever())
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "./tracker.py", line 349, in forever
+    previous = await main_loop(previous)
+  File "./tracker.py", line 232, in main_loop
+    width_mod = xinfo["xwidth"] / tmuxinfo["tmux_window_width"]
+TypeError: 'NoneType' object is not subscriptable
+
+
