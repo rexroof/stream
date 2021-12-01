@@ -1,20 +1,15 @@
-- monday
+- wednesday
 
 today:
-- debugging archlinux networking
-
-- nerdctl rootless building
-  - lspcontainers, added detection, no problemo
-  - building, required buildkit-bin installed
-  - nerdctl compose 
-    - fine.   compose.yaml, Containerfile => Dockerfile
-  - kind
+- toying around with lua
+- development in a container
+- learn some basics
+- figure out how lua in neovim works
 
 
 todo:
 - check visibility bug below
 - chat-bonsai timeout
-- update tau-client with all tau events
 - add queuing system for tmux events
 - resize windows after stream events?
   [carlvandergeest]: yes
@@ -29,6 +24,7 @@ todo:
 - can tau-client reconnect?
 - fix tmux colors
 - fix tau_events.py showing events
+- update tau-client with all tau events
 - pin browser size to tmux
 - revisit tau "channel-subscription-message"
 - lspcontainers docker errors:
