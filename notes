@@ -1,13 +1,11 @@
-- wednesday
+- monday
 
 today:
-- toying around with lua
-- development in a container
-- learn some basics
-- figure out how lua in neovim works
-
+- neovim & tmux colors
+- write some lua for neovim
 
 todo:
+- add now-playing back to tmux
 - check visibility bug below
 - chat-bonsai timeout
 - add queuing system for tmux events
@@ -22,7 +20,6 @@ todo:
 - add git file status to vim statusline
 - look at stream repos and get them pushed
 - can tau-client reconnect?
-- fix tmux colors
 - fix tau_events.py showing events
 - update tau-client with all tau events
 - pin browser size to tmux
