@@ -1,13 +1,23 @@
-- wednesday
+- monday
+
+
+* [j0hnskot]: Hey, does python have switch statements?
+* [qkai76]: have you ever used i3?
+* [cosmicqushyqushy]: Is gaming on Linux good?
+-- $300!  
+
+[carlvandergeest]: most developers don't know what an ami or cidr range is tbh
+- neither good nor bad.
 
 today:
-- fixing joycon
-- neovim & tmux colors
-- write some lua for neovim
+- neovim tabs  it's just PASTE mode.  ugh.
+- update tau_events script to show recent events
+- .gitconfig colors?
 
 todo:
-- add now-playing back to tmux
-- check visibility bug below
+- make tmux popups start below main cam window
+- replace cyclist with simpler config
+- digital zoom for eton? (and rex?)
 - chat-bonsai timeout
 - add queuing system for tmux events
 - resize windows after stream events?
@@ -15,10 +25,8 @@ todo:
 - checkout framework laptop networking.
 - can we do rootless containerd in a docker container?
 - build podman rootless container for building
-- customize lualine for my preference
 - vim command for :%!jq .
 - vim command for pwgen/uuidgen
-- add git file status to vim statusline
 - look at stream repos and get them pushed
 - can tau-client reconnect?
 - fix tau_events.py showing events
@@ -34,18 +42,6 @@ cat /home/rex/.cache/nvim/lsp.log
 "stderr"        "glob error [Error: EPERM: operation not permitted, scandir 
 '/proc/1/map_files/7f3e38667000-7f3e38668000'] {\n  errno: -1,\n  code: 'EPERM',
 \n  syscall: 'scandir',\n  path: '/proc/1/map_files/7f3e38667000-7f3e38668000'\n}\n"
-
-tracker.py error:
-Traceback (most recent call last):
-  File "./tracker.py", line 358, in <module>
-    loop.run_until_complete(forever())
-  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
-    return future.result()
-  File "./tracker.py", line 349, in forever
-    previous = await main_loop(previous)
-  File "./tracker.py", line 232, in main_loop
-    width_mod = xinfo["xwidth"] / tmuxinfo["tmux_window_width"]
-TypeError: 'NoneType' object is not subscriptable
 
 
 plans for future streams:
